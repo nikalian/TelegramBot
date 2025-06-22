@@ -91,6 +91,22 @@ namespace MilanaBot
                     var chatId = msg.Chat.Id;
                     if (msg.Text == "Записаться")
                     {
+                    var botClient = new TelegramBotClient(token);
+
+                        // Получение последних сообщений (например, 100 сообщений)
+                        //var messages = await botClient.DeleteMessages(chatId);
+
+                        /*foreach (var message in messages)
+                        {
+                            try
+                            {
+                                await botClient.DeleteMessageAsync(chatId, message.MessageId);
+                            }
+                            catch
+                            {
+
+                            }
+                        }*/
                         string text = "Выберите мастера к которому вы хотите записаться:";
                         var Masters = dataBase.GetMasters();
                         var button = new List<InlineKeyboardButton[]>();

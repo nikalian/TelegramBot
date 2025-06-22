@@ -12,7 +12,7 @@ namespace MilanaBot
 {
     class DataBase
     {
-        string connect = "Data Source=DESKTOP-2DD2GG2;Initial Catalog=BARBERSHOP;Integrated Security=True;Encrypt=False";
+        string connect = "Server=88.218.170.159; DataBase=BARBERSHOP; User ID=SA; Password=g6SC+y2E_W^Vaa; Integrated Security=False; Encrypt=False";
         public DataTable GetMasters()
         {
             try
