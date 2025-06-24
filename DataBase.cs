@@ -12,7 +12,7 @@ namespace MilanaBot
 {
     class DataBase
     {
-        string connect = "Server=88.218.170.159; DataBase=BARBERSHOP; User ID=SA; Password=g6SC+y2E_W^Vaa; Integrated Security=False; Encrypt=False";
+        string connect = $"Server=88.218.170.159; DataBase=BARBER; User ID=SA; Password={Spravka.PasswordDB}; Integrated Security=False; Encrypt=False";
         public DataTable GetMasters()
         {
             try
@@ -22,9 +22,9 @@ namespace MilanaBot
                 string cmd = "SELECT * FROM MASTERS";
                 SqlCommand command = new SqlCommand(cmd, connection);
                 DataTable dt = new DataTable();
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd,connection);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd, connection);
                 adapter.Fill(dt);
-                connection.Close(); 
+                connection.Close();
                 return dt;
             }
             catch (Exception ex)
@@ -42,9 +42,9 @@ namespace MilanaBot
                 string cmd = "SELECT * FROM SERVICES";
                 SqlCommand command = new SqlCommand(cmd, connection);
                 DataTable dt = new DataTable();
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd,connection);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd, connection);
                 adapter.Fill(dt);
-                connection.Close(); 
+                connection.Close();
                 return dt;
             }
             catch (Exception ex)
@@ -78,7 +78,6 @@ namespace MilanaBot
             {
                 SqlConnection connection = new SqlConnection(connect);
                 connection.Open();
-                //Проверка на наличие клиента в базе. Если нету записываем
                 string cmd = $"SELECT ID_MESSAGE FROM KLIENTS WHERE ID_CHAT = '{ChatId}'  ";
                 SqlCommand command = new SqlCommand(cmd, connection);
                 object Result = command.ExecuteScalar();
@@ -225,7 +224,7 @@ namespace MilanaBot
                     $"END " +
                     $"ELSE " +
                     $"BEGIN " +
-                    $"INSERT INTO RECORD(ID_MASTERS, ID_SERVICES, ID_KLIENT) VALUES(@ID_mstr, '1', @ID_klnts) " +
+                    $"INSERT INTO RECORD(ID_MASTERS, ID_KLIENT) VALUES(@ID_mstr, @ID_klnts) " +
                     $"END " +
                     $"END " +
                     $"ELSE " +
@@ -313,6 +312,25 @@ namespace MilanaBot
                 SqlCommand command = new SqlCommand(cmd, connection);
                 object Result = command.ExecuteScalar();
                 connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Ошибка: " + ex.Message);
+                throw;
+            }
+        }
+        public string DropServices(long ChatId, string ServiceName)
+        {
+            try
+            {
+                SqlConnection connection = new SqlConnection(connect);
+                connection.Open();
+                //Проверка на наличие клиента в базе. Если нету записываем
+                string cmd = $"DELETE FROM SERVICES WHERE NAME = {ServiceName}";
+                SqlCommand command = new SqlCommand(cmd, connection);
+                object Result = command.ExecuteScalar();
+                connection.Close();
+                return Result.ToString();
             }
             catch (Exception ex)
             {

@@ -17,7 +17,7 @@ namespace MilanaBot
     {
         private static Admins admins = new Admins();
         private static DataBase dataBase = new DataBase();
-        public static readonly string token = "7706635761:AAEYxjHnfddS2iYjDsi9YNhtuMrfnn3PgqU";
+        public static readonly string token = Spravka.BotToken;
         public static Telegram.Bot.Types.Message chatFullInfo;
         public static DateTime todayDateOnly = DateTime.Today;
         public static CallbackQuery Data;
@@ -78,12 +78,15 @@ namespace MilanaBot
                         await admins.HandleAdminCommand(bot, update.Message);
                         CTS.Cancel();
                     }
-                    // Отправляем стартовое сообщение с кнопками
-                    var replyKeyboard = new ReplyKeyboardMarkup(new[] { new[] { new KeyboardButton("Записаться"), new KeyboardButton("Мои записи") } })
+                    else
                     {
-                        ResizeKeyboard = true
-                    };
-                    await bot.SendMessage(update.Message.Chat.Id, "Выберите действие:", replyMarkup: replyKeyboard);
+                        // Отправляем стартовое сообщение с кнопками
+                            var replyKeyboard = new ReplyKeyboardMarkup(new[] { new[] { new KeyboardButton("Записаться"), new KeyboardButton("Мои записи") } })
+                        {
+                            ResizeKeyboard = true
+                        };
+                        await bot.SendMessage(update.Message.Chat.Id, "Выберите действие:", replyMarkup: replyKeyboard);
+                    }
                 }
                 else if (update.Message != null && update.Type == UpdateType.Message)
                 {
@@ -301,8 +304,8 @@ namespace MilanaBot
             if (fullinfo != null)
             foreach (var Row in ((System.Data.DataTable)fullinfo).Rows)
             {
-                Name = ((System.Data.DataRow)Row).ItemArray[1].ToString();
-                UserName = ((System.Data.DataRow)Row).ItemArray[2].ToString();
+                Name = ((System.Data.DataRow)Row).ItemArray[3].ToString();
+                UserName = ((System.Data.DataRow)Row).ItemArray[4].ToString();
             }
             else
             {
