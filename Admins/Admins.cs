@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -23,6 +24,7 @@ namespace MilanaBot
         public static string РедактируемаяУслуга;
         public static Message msg;
         public static TelegramBotClient botClient;
+        public static Update Updates;
         public async Task HandleAdminCommand(ITelegramBotClient bot, Message message)
         {
             botClient = new TelegramBotClient(Spravka.BotToken);
@@ -59,6 +61,7 @@ namespace MilanaBot
 
             if (update.Type == UpdateType.Message && update.Message != null)
             {
+                Updates = update;
                 var msg = update.Message;
                 var chatId = msg.Chat.Id;
                 if (msg.Text != null && update.Message.Chat.Username != Spravka.AdminUserName)
@@ -137,13 +140,15 @@ namespace MilanaBot
                     chatFullInfo = Message;
                 }
             }
-            //Добавление
+            //Добавление 
+            //(Где то ошибка !!!!!!!!!!!!!!!)
             else if (callback.Data == "ДобавитьУслугу")
             {
-                //await bot.SendMessage(chatId, "Напишите название услуги");
-                //botClient.Close();
-                //GetMessage.Message;
-                //GetMessage.BotClient.Close();
+                await bot.SendMessage(chatId, "Введите отдельными сообщениями по порядку необходимые параметры\n\n1. Наименование услуг\n" +
+                "2. Стоимость\n3. Комментарий");
+                AddData getMessage = new AddData(Spravka.UslugiTableName);
+                await getMessage.HandleAdminCommand(botClient, Updates.Message);
+                CTSadmin.Cancel();
             }
             //МАСТЕРА
             else if (callback.Data == "EditWorkDate")

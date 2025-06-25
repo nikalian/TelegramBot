@@ -72,7 +72,7 @@ namespace MilanaBot
 
                 if (update.Message != null && update.Message.Text == "/start")
                 {
-                    if (update.Message.Text != null && update.Message.Chat.Username == "ediknikalian")
+                    if (update.Message.Text != null && update.Message.Chat.Username == Spravka.AdminUserName)
                     {
                         AdminChatID = update.Message.Chat.Id;
                         await admins.HandleAdminCommand(bot, update.Message);
