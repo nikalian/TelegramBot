@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MilanaBot")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4396177a816de4e47ea10af0a8da9c6d984eb518")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d256ed63ec45eca26495765073d0aa09c44581d5")]
 [assembly: System.Reflection.AssemblyProductAttribute("MilanaBot")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MilanaBot")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

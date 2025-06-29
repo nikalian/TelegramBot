@@ -110,21 +110,31 @@ namespace MilanaBot
             {
                 await ShowPageSelectOtionsServices(bot, chatId);
             }
-            //Удаление (Где то ошибка !!!!!!!!!!!!!!!)
+            //Удаление 
             else if (callback.Data == "УдалитьУслугу")
             {
                 await ShowPageDeleteService(bot, chatId);
             }
-            else if (callback.Data.ToLower().Contains("_НаименованиеУслугиУдаление"))
+            else if (callback.Data.Contains("_Удаление"))
             {
                 РедактируемаяУслуга = callback.Data.Substring(0, callback.Data.LastIndexOf("_"));
                 await ShowPageDeleteSelectService(bot, chatId, РедактируемаяУслуга);
             }
-            else if (callback.Data == "УдалитьУслугПодтверждить" || callback.Data == "УдалитьУслугОтмена")
+            else if (callback.Data == "УдалитьПодтверждить" || callback.Data == "УдалитьОтмена")
             {
-                if (callback.Data == "УдалитьУслугПодтверждить")
+                if (callback.Data == "УдалитьПодтверждить")
                 {
                     dataBase.DropServices(chatId, РедактируемаяУслуга);
+                                        bot.DeleteMessage(chatId, msg.Id);
+                    var keyboard = new InlineKeyboardMarkup(new[]
+                    {
+                        new[] { InlineKeyboardButton.WithCallbackData("Просмотр записей", "GetServices") },
+                        new[] { InlineKeyboardButton.WithCallbackData("Редактировать услуги", "EditUslug") },
+                        new[] { InlineKeyboardButton.WithCallbackData("Редактировать мастеров", "EditMasters") },
+                        new[] { InlineKeyboardButton.WithCallbackData("Изменить рабочий график мастеров", "EditWorkDate") }
+                    });
+                    var Message = await bot.SendMessage(chatId, "Выберите функцию", replyMarkup: keyboard);
+                    chatFullInfo = Message;
                 }
                 else
                 {
@@ -204,7 +214,7 @@ namespace MilanaBot
             foreach (var Row in Services.Rows)
             {
                 string ServicesName = ((System.Data.DataRow)Row).ItemArray[1].ToString();
-                button.Add(new[] { InlineKeyboardButton.WithCallbackData(ServicesName, $"{ServicesName}_НаименованиеУслугиУдаление") });
+                button.Add(new[] { InlineKeyboardButton.WithCallbackData(ServicesName, ServicesName + "_Удаление") });
             }
             var markup = new InlineKeyboardMarkup(button);
 
@@ -223,8 +233,8 @@ namespace MilanaBot
             {
                 new []
                 {
-                    InlineKeyboardButton.WithCallbackData("Да", "УдалитьУслугПодтверждить"),
-                    InlineKeyboardButton.WithCallbackData("Отмена", "УдалитьУслугОтмена")
+                    InlineKeyboardButton.WithCallbackData("Да", "УдалитьПодтверждить"),
+                    InlineKeyboardButton.WithCallbackData("Отмена", "УдалитьОтмена")
                 }
             };
 

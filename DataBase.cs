@@ -326,7 +326,7 @@ namespace MilanaBot
                 SqlConnection connection = new SqlConnection(connect);
                 connection.Open();
                 //Проверка на наличие клиента в базе. Если нету записываем
-                string cmd = $"DELETE FROM SERVICES WHERE NAME = {ServiceName}";
+                string cmd = $"DELETE FROM SERVICES WHERE NAME = '{ServiceName}'";
                 SqlCommand command = new SqlCommand(cmd, connection);
                 object Result = command.ExecuteScalar();
                 connection.Close();
